@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".messageActivity">
+
+    <EditText
+        android:id="@+id/WriteMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/message"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:translationX="150px"
+        android:translationY="1750px" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/Theme.SAE302_HERON.AppBarOverlay">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="87dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="151dp"
+                android:layout_height="58dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/Theme.SAE302_HERON.PopupOverlay" />
+
+            <Button
+                android:id="@+id/button_quit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QUITTER"
+                android:translationX="420px"
+                android:translationY="30px"
+                app:iconTint="@color/black" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="1500px"
+        android:translationY="200px">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/message_display"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="TextView" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/send_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENVOYER"
+        android:translationX="750px"
+        android:translationY="1750px" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
