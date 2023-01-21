@@ -4,11 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".messageActivity">
+    tools:context=".messageActivity_server" >
+
+    <Button
+        android:id="@+id/quitbutton_server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QUITTER"
+        android:translationX="30px"
+        android:translationY="30px" />
 
     <EditText
-        android:id="@+id/WriteMessage"
+        android:id="@+id/message_server"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -16,6 +23,14 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:translationX="150px"
+        android:translationY="1750px" />
+
+    <Button
+        android:id="@+id/send_message_server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENVOYER"
+        android:translationX="750px"
         android:translationY="1750px" />
 
     <ScrollView
@@ -29,31 +44,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/message_display"
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="TextView" />
-
+                android:layout_height="wrap_content"
+                android:text="@string/client" />
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/send_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ENVOYER"
-        android:translationX="750px"
-        android:translationY="1750px" />
-
-    <Button
-        android:id="@+id/button_quit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#E42E2E"
-        android:text="QUITTER"
-        android:textColor="#000000"
-        android:translationX="30px"
-        android:translationY="30px"
-        app:iconTint="@color/black" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

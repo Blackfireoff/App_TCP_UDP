@@ -2,6 +2,7 @@ package com.example.sae302_heron;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.AsyncTask.*;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -22,6 +23,11 @@ import java.io.IOException;
 import java.lang.StringBuilder;
 import java.net.Socket;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+
 
 import com.example.sae302_heron.databinding.ActivityMessageBinding;
 
@@ -38,21 +44,14 @@ public class messageActivity extends AppCompatActivity {
     String message_recu;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-
         binding = ActivityMessageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle(getTitle());
 
         message = binding.messageDisplay;
         socket_close = binding.buttonQuit;
@@ -60,69 +59,100 @@ public class messageActivity extends AppCompatActivity {
         write_message = binding.WriteMessage;
 
         StringBuilder sb = new StringBuilder("Bienvenue sur l'application de messagerie de Heron !\n\n");
-
+        message.setText(sb);
         // Récupération du socket à partir de l'Intent
         Intent intent = getIntent();
         String server = intent.getStringExtra("server");
-        int port = intent.getIntExtra("port",5000);
+        System.out.println("L'IP du server est :");
+        System.out.println(server);
+        String username = intent.getStringExtra("Username");
+        int port = intent.getIntExtra("port", 5000);
+
+
 
         socket_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                value_socket = 1;
+                Intent intent = new Intent(messageActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
-        send_message.setOnClickListener(new View.OnClickListener() {
+        class ConnectTask extends AsyncTask<String, Void, Void> {
+
             @Override
-            public void onClick(View v) {
-                value_message = 1;
-                sb.append(message_recu+"\n");
-                message.setText(sb);
-            }
-        });
-
-
-
-
-
-
-
-        class ConnectTask extends AsyncTask<Void, Void, Void> {
-            @Override
-            protected Void doInBackground(Void... params) {
+            protected Void doInBackground(String... message) {
                 try {
                     Socket socket = new Socket(server, port);
-                    System.out.println(value_message);
-                    while (value_socket == 0) {
-                        if (value_message == 1) {
-                            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                            out.writeUTF(write_message.getText().toString());
-                            value_message = 0;
-                        }
-                        /*
-                        DataInputStream in = new DataInputStream(socket.getInputStream());
-                        message_recu = in.readUTF();
-                        System.out.println(message_recu);
-                         */
-                    }
+                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                    out.writeUTF(message[0]);
                     socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return null;
             }
-
-
-            protected void onPostExecute(){
+            /*
+            protected void onPostExecute(Void test) {
                 Intent intent = new Intent(messageActivity.this, MainActivity.class);
                 startActivity(intent);
             }
+            */
         }
 
-        ConnectTask connect = new ConnectTask();
-        connect.execute();
+        send_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String messageToSend = write_message.getText().toString();
+                new ConnectTask().execute(messageToSend);
+                sb.append(username+" : "+ messageToSend + "\n");
+                message.setText(sb);
+                write_message.setText("");
+            }
+        });
 
 
-    }
-}
+
+        class ReadMessage extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                        try {
+
+                            Socket socket = new Socket(server, port);
+                            DataInputStream in = new DataInputStream(socket.getInputStream());
+                            message_recu = in.readUTF();
+                            System.out.println("le message est :");
+                            System.out.println(message_recu);
+                            sb.append("Server : "+message_recu + "\n");
+                            message.setText(sb);
+                            socket.close();
+
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    return null;
+                };
+
+
+
+
+        }
+
+        ScheduledExecutorService scheduledExecutorService =
+                Executors.newSingleThreadScheduledExecutor();
+
+        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                new ReadMessage().execute();
+            }
+        }, 0, 5, TimeUnit.SECONDS);
+
+
+
+
+        }
+    };

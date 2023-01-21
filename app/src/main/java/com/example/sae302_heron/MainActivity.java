@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Button connectButton;
     private EditText serverAddress;
     private EditText serverPort;
+    private EditText Username;
     private Button serverButton;
     private Button messageButton;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         serverPort = findViewById(R.id.server_port);
         serverButton = findViewById(R.id.server_button);
         messageButton = findViewById(R.id.button_message);
+        Username = findViewById(R.id.nom_utilisateur);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, messageActivity.class);
                 intent.putExtra("server", server);
                 intent.putExtra("port",port);
+                intent.putExtra("Username",Username.getText().toString());
                 startActivity(intent);
 
             }

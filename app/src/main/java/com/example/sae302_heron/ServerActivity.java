@@ -35,6 +35,7 @@ public class ServerActivity extends AppCompatActivity {
     private Button clientButton;
     private EditText serverPort;
     private TextView ipAddress;
+    private EditText UsernameServer;
 
 
     @Override
@@ -46,6 +47,7 @@ public class ServerActivity extends AppCompatActivity {
         serverPort = findViewById(R.id.server_port_2);
         ipAddress = findViewById(R.id.ip_address);
         clientButton = findViewById(R.id.client_server);
+        UsernameServer = findViewById(R.id.Username_server);
 
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
@@ -66,8 +68,12 @@ public class ServerActivity extends AppCompatActivity {
         startServerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ServerTask().execute();
-            }
+                int port = Integer.parseInt(serverPort.getText().toString());
+                Intent intent = new Intent(ServerActivity.this, messageActivity_server.class);
+                intent.putExtra("port_server",port);
+                intent.putExtra("Username_server",UsernameServer.getText().toString());
+                startActivity(intent);
+                }
         });
         clientButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,30 +83,6 @@ public class ServerActivity extends AppCompatActivity {
             }
         });
     }
-    private class ServerTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                int port = Integer.parseInt(serverPort.getText().toString());
-                ServerSocket serverSocket = new ServerSocket(port);
 
-                while (true) {
-                    System.out.println("En attente de connexion d'un client");
-                    Socket socket = serverSocket.accept();
-                    System.out.println("Connexie établie");
-                    DataInputStream in = new DataInputStream(socket.getInputStream());
-                    String nomClient = in.readUTF();
-                    String s1 = "Bienvenue "+nomClient+", t'es bien connecté bro";
-                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                    out.writeUTF(s1);
-                    socket.close();
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 }
 
