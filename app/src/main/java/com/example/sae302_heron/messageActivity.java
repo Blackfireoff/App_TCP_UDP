@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 
 import com.example.sae302_heron.databinding.ActivityMessageBinding;
+import com.example.sae302_heron.ClientTask;
 
 public class messageActivity extends AppCompatActivity {
 
@@ -38,6 +39,7 @@ public class messageActivity extends AppCompatActivity {
     private Button socket_close;
     private Button send_message;
     private EditText write_message;
+    private ClientTask CT;
 
     int value_socket = 0;
     int value_message = 0;
@@ -68,6 +70,9 @@ public class messageActivity extends AppCompatActivity {
         String username = intent.getStringExtra("Username");
         int port = intent.getIntExtra("port", 5000);
 
+        CT = new ClientTask(server,port,username);
+        CT.execute();
+
 
 
         socket_close.setOnClickListener(new View.OnClickListener() {
@@ -78,38 +83,21 @@ public class messageActivity extends AppCompatActivity {
             }
         });
 
-        class ConnectTask extends AsyncTask<String, Void, Void> {
-
-            @Override
-            protected Void doInBackground(String... message) {
-                try {
-                    Socket socket = new Socket(server, port);
-                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                    out.writeUTF(message[0]);
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-            /*
-            protected void onPostExecute(Void test) {
-                Intent intent = new Intent(messageActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-            */
-        }
 
         send_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageToSend = write_message.getText().toString();
-                new ConnectTask().execute(messageToSend);
+
+                CT.add_message(messageToSend);
+
                 sb.append(username+" : "+ messageToSend + "\n");
                 message.setText(sb);
                 write_message.setText("");
             }
         });
+
+
 
 
 

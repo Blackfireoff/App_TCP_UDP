@@ -44,6 +44,8 @@ public class messageActivity_server extends AppCompatActivity {
     private Button send;
     private TextView message;
     private EditText message_ecrit;
+    private ServerTask ST;
+    private ClientTask CT;
 
 
     @Override
@@ -59,12 +61,17 @@ public class messageActivity_server extends AppCompatActivity {
         message = binding.textView3;
         message_ecrit = binding.messageServer;
 
+
         StringBuilder sb = new StringBuilder("Bienvenue sur l'application de messagerie de Heron !\n\n");
         message.setText(sb);
+
         // Récupération du socket à partir de l'Intent
         Intent intent = getIntent();
         String username = intent.getStringExtra("Username");
         int port = intent.getIntExtra("port", 5000);
+
+        ST = new ServerTask(port,sb,username,message);
+        //CT = new ClientTask()
 
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,45 +81,9 @@ public class messageActivity_server extends AppCompatActivity {
             }
         });
 
-        class ServerTask extends AsyncTask<String, Void, Void> {
-
-            @Override
-            protected Void doInBackground(String... message) {
-                try {
-                    ServerSocket serverSocket = new ServerSocket(port);
-                    System.out.println("En attente de connexion d'un client");
-                    Socket socket = serverSocket.accept();
-                    System.out.println("Client connecté");
-                    DataInputStream in = new DataInputStream(socket.getInputStream());
-                    String message_client = in.readUTF();
-                    sb.append(username+" : "+ message_client + "\n");
-                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                    out.writeUTF(message[0]);
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            protected void onPostExecute(Void test) {
-                message.setText(sb);
-            }
-        }
-
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String messageToSend = message_ecrit.getText().toString();
-                new ServerTask().execute(messageToSend);
-                sb.append(username+" : "+ messageToSend + "\n");
-                message.setText(sb);
-                message_ecrit.setText("");
-            }
-        });
 
 
-
+        ST.execute();
 
 
 

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import android.os.StrictMode;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         messageButton = findViewById(R.id.button_message);
         Username = findViewById(R.id.nom_utilisateur);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,46 +75,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-/*
-    public class SocketSingleton {
-
-        private SocketSingleton instance;
-        private Socket socket;
-
-        private SocketSingleton() {
-            // Initialisez le socket ici
-            String server = serverAddress.getText().toString();
-            int port = Integer.parseInt(serverPort.getText().toString());
-            try {
-                socket = new Socket(server, port);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public SocketSingleton getInstance() {
-            if (instance == null) {
-                instance = new SocketSingleton();
-            }
-            return instance;
-        }
-
-        public Socket getSocket() {
-            return socket;
-        }
-
-        public void closeSocket(){
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-*/
-
-
 
 
 }
