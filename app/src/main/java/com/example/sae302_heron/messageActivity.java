@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,7 +58,7 @@ public class messageActivity extends AppCompatActivity {
         socket_close = binding.buttonQuit;
         send_message = binding.sendMessage;
         write_message = binding.WriteMessage;
-
+        message.setMovementMethod(new ScrollingMovementMethod());
         StringBuilder sb = new StringBuilder("Bienvenue sur l'application de messagerie de Heron !\n\n");
         message.setText(sb);
         // Récupération du socket à partir de l'Intent

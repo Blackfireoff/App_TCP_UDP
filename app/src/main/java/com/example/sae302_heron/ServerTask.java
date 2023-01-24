@@ -2,6 +2,7 @@ package com.example.sae302_heron;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 import java.io.DataInputStream;
@@ -30,6 +31,7 @@ public class ServerTask extends AsyncTask<String, Void, Void> {
             message = TVM;
             SkT = new ArrayList<>();
             Sk = new ArrayList<>();
+
 
         } catch (IOException e) {
             e.printStackTrace();
