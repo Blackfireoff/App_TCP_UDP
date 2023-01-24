@@ -41,8 +41,6 @@ public class messageActivity extends AppCompatActivity {
     private EditText write_message;
     private ClientTask CT;
 
-    int value_socket = 0;
-    int value_message = 0;
     String message_recu;
 
 

@@ -18,6 +18,7 @@ public class ServerTask extends AsyncTask<String, Void, Void> {
     private String username;
     private TextView message;
     private ArrayList<SocketTask> SkT;
+    private ArrayList<Socket> Sk;
 
 
     //Constructeur de la classe
@@ -28,6 +29,7 @@ public class ServerTask extends AsyncTask<String, Void, Void> {
             username = nameUser;
             message = TVM;
             SkT = new ArrayList<>();
+            Sk = new ArrayList<>();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,12 +45,12 @@ public class ServerTask extends AsyncTask<String, Void, Void> {
             try {
                 System.out.println("En attente de connexion d'un client");
                 Socket socket = serverSocket.accept();
+                Sk.add(socket);
                 System.out.println("Client connecté");
 
-                SocketTask T = new SocketTask(socket, username, sb, this.message);
-                T.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                SocketTask T = new SocketTask(socket, username, sb, this.message,Sk,this);
                 SkT.add(T);
-
+                T.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.example.sae302_heron;
 
 import android.os.AsyncTask;
+import android.telephony.mbms.MbmsErrors;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -10,6 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class SocketTask extends AsyncTask<Void, Void, Void> {
@@ -20,19 +22,34 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
     private TextView message;
     private String message_client;
     private DataInputStream in;
+    private DataOutputStream out;
     private JSONObject json;
+    private ArrayList<Socket> Sk;
+    private ServerTask ST;
 
-    SocketTask(Socket sk,String nameUser,StringBuilder sbe, TextView TVM) {
+
+    SocketTask(Socket sk,String nameUser,StringBuilder sbe, TextView TVM,ServerTask ST_temp) {
         socket = sk;
         username = nameUser;
         sb = sbe;
-        message= TVM;
+        ST = ST_temp;
         try {
             in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
                 e.printStackTrace();
             }
     }
+
+    public void SendMessage(){
+        try {
+            out.writeUTF(message_client);
+            System.out.println("JSON Envoyé au socket : " + socket.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     protected Void doInBackground(Void... voids) {
@@ -48,6 +65,7 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
             }
             System.out.println("Socket fermé");
             socket.close();
+            Sk.remove(socket);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {

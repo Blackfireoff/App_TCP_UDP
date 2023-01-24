@@ -80,13 +80,7 @@ public class messageActivity_server extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
         ST.execute();
-
-
-
 
 
     }

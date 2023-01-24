@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         serverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         messageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
