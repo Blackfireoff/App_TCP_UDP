@@ -2,6 +2,7 @@ package com.example.sae302_heron;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -23,9 +24,11 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
     private JSONObject json;
     private Hashtable<String,String> json_bd;
     private read_message RM;
+    private TextView message;
+    private StringBuilder sb;
 
-
-    ClientTask(String server, int port, String name){
+    @SuppressLint("WrongThread")
+    ClientTask(String server, int port, String name, TextView MS,StringBuilder Sb_temp){
         try{
             socket = new Socket(server, port);
             out = new DataOutputStream(socket.getOutputStream());
@@ -33,7 +36,10 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             username = name;
             json_bd = new Hashtable<>();
             json_bd.put("Username",username);
-            RM = new read_message(socket);
+            message = MS;
+            sb = Sb_temp;
+            RM = new read_message(socket,message,sb);
+            RM.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +50,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         pile_message.add(message);
     }
 
-    @SuppressLint("WrongThread")
+
     @Override
     protected Void doInBackground(Void... voids) {
         String message;
@@ -53,7 +59,6 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
                 try {
                     json_bd.put("Data",message);
                     json = new JSONObject(json_bd);
-                    RM.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);;
                     out.writeUTF(json.toString());
 
                 } catch (IOException e) {

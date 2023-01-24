@@ -48,13 +48,19 @@ public class ServerTask extends AsyncTask<String, Void, Void> {
                 Sk.add(socket);
                 System.out.println("Client connecté");
 
-                SocketTask T = new SocketTask(socket, username, sb, this.message,Sk,this);
+                SocketTask T = new SocketTask(socket, username, sb, this.message,this);
                 SkT.add(T);
                 T.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void publishMessage(String message){
+        for(SocketTask St : SkT){
+            St.SendMessage(message);
         }
     }
 

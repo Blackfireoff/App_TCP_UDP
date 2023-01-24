@@ -68,7 +68,7 @@ public class messageActivity extends AppCompatActivity {
         String username = intent.getStringExtra("Username");
         int port = intent.getIntExtra("port", 5000);
 
-        CT = new ClientTask(server,port,username);
+        CT = new ClientTask(server,port,username,message,sb);
         CT.execute();
 
 
@@ -88,10 +88,6 @@ public class messageActivity extends AppCompatActivity {
                 String messageToSend = write_message.getText().toString();
 
                 CT.add_message(messageToSend);
-
-                sb.append(username+" : "+ messageToSend + "\n");
-                message.setText(sb);
-                write_message.setText("");
             }
         });
 

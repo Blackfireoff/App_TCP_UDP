@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+
 public class SocketTask extends AsyncTask<Void, Void, Void> {
 
     private Socket socket;
@@ -28,11 +29,12 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
     private ServerTask ST;
 
 
-    SocketTask(Socket sk,String nameUser,StringBuilder sbe, TextView TVM,ServerTask ST_temp) {
+    SocketTask(Socket sk,String nameUser,StringBuilder sbe, TextView TVM,ServerTask ST) {
         socket = sk;
         username = nameUser;
         sb = sbe;
-        ST = ST_temp;
+        this.ST = ST;
+        message = TVM;
         try {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
@@ -41,9 +43,9 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
             }
     }
 
-    public void SendMessage(){
+    public void SendMessage(String message){
         try {
-            out.writeUTF(message_client);
+            out.writeUTF(message);
             System.out.println("JSON Envoyé au socket : " + socket.toString());
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,7 +60,10 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
 
                 message_client = in.readUTF();
                 json = new JSONObject(message_client);
+                System.out.println("SocketTask 1");
                 if(!message_client.isEmpty()) {
+                    ST.publishMessage(message_client);
+                    System.out.println("2");
                     sb.append(json.getString("Username") + " : " + json.getString("Data") + "\n");
                     publishProgress();
                 }
