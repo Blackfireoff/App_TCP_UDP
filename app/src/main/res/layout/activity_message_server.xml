@@ -1,54 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".messageActivity_server" >
+    tools:context=".messageActivity_server">
 
-    <Button
-        android:id="@+id/quitbutton_server"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="QUITTER"
-        android:translationX="30px"
-        android:translationY="30px" />
-
-    <EditText
-        android:id="@+id/message_server"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/message"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:translationX="150px"
-        android:translationY="1750px" />
-
-    <Button
-        android:id="@+id/send_message_server"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ENVOYER"
-        android:translationX="750px"
-        android:translationY="1750px" />
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1500px"
-        android:translationY="200px">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/quitbutton_server"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/client" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="QUITTER" />
         </LinearLayout>
-    </ScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="600dp"
+            android:gravity="bottom"
+            android:scrollbars="vertical"
+            android:text="@string/client" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/message_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:ems="10"
+                android:hint="@string/message"
+                android:inputType="textPersonName"
+                android:minHeight="48dp" />
+
+            <Button
+                android:id="@+id/send_message_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:text="ENVOYER" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

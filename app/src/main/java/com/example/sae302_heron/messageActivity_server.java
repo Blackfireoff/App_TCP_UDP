@@ -46,6 +46,7 @@ public class messageActivity_server extends AppCompatActivity {
     private EditText message_ecrit;
     private ServerTask ST;
     private ClientTask CT;
+    private UDPServerTask UDPST;
 
 
     @Override
@@ -69,8 +70,9 @@ public class messageActivity_server extends AppCompatActivity {
         Intent intent = getIntent();
         String username = intent.getStringExtra("Username");
         int port = intent.getIntExtra("port", 5000);
+        Boolean value_udp = intent.getBooleanExtra("value_udp",false);
 
-        ST = new ServerTask(port,sb,username,message);
+
         //CT = new ClientTask()
 
         exit.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +82,24 @@ public class messageActivity_server extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ST.execute();
+
+        if(value_udp == false) {
+            ST = new ServerTask(port, sb, username, message);
+            ST.execute();
+        }
+        else{
+            UDPST = new UDPServerTask(port);
+            UDPST.main();
+        }
+
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
 
     }

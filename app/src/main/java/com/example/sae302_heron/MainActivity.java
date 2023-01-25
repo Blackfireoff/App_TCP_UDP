@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import android.annotation.SuppressLint;
 import android.os.StrictMode;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.content.Intent;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Switch;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText serverPort;
     private EditText Username;
     private Button serverButton;
-    private Button messageButton;
+    private Switch switchUDP;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         serverAddress = findViewById(R.id.server_address);
         serverPort = findViewById(R.id.server_port);
         serverButton = findViewById(R.id.server_button);
-        messageButton = findViewById(R.id.button_message);
         Username = findViewById(R.id.nom_utilisateur);
+        switchUDP = findViewById(R.id.switch_to_udp_client);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("server", server);
                 intent.putExtra("port",port);
                 intent.putExtra("Username",Username.getText().toString());
+                intent.putExtra("value_of_udp",switchUDP.isChecked());
                 startActivity(intent);
 
             }
@@ -64,15 +68,7 @@ public class MainActivity extends AppCompatActivity {
         serverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ServerActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, messageActivity.class);
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });

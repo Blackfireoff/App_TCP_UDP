@@ -15,10 +15,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.Switch;
 import android.widget.TextView;
 import android.view.View;
 
@@ -36,8 +38,10 @@ public class ServerActivity extends AppCompatActivity {
     private EditText serverPort;
     private TextView ipAddress;
     private EditText UsernameServer;
+    private Switch switchUDP;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,7 @@ public class ServerActivity extends AppCompatActivity {
         ipAddress = findViewById(R.id.ip_address);
         clientButton = findViewById(R.id.client_server);
         UsernameServer = findViewById(R.id.Username_server);
+        switchUDP = findViewById(R.id.switch_to_udp_server);
 
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
@@ -72,13 +77,14 @@ public class ServerActivity extends AppCompatActivity {
                 Intent intent = new Intent(ServerActivity.this, messageActivity_server.class);
                 intent.putExtra("port_server",port);
                 intent.putExtra("Username_server",UsernameServer.getText().toString());
+                intent.putExtra("value_udp",switchUDP.isChecked());
                 startActivity(intent);
                 }
         });
         clientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ServerActivity.this, MainActivity.class);
+                Intent intent = new Intent(ServerActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });

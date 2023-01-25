@@ -30,6 +30,7 @@
         android:id="@+id/server_port_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/Ports"
         android:inputType="number"
@@ -37,16 +38,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/client_server"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="250dp"
-        android:layout_marginBottom="620dp"
-        android:text="@string/client"
+        android:layout_marginTop="550dp"
+        android:text="RETOUR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,9 +58,21 @@
         android:ems="10"
         android:hint="Nom"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/server_port_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ip_address" />
+
+    <Switch
+        android:id="@+id/switch_to_udp_server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="37dp"
+        android:minHeight="48dp"
+        android:text="UDP"
+        app:layout_constraintStart_toStartOf="@+id/server_port_2"
+        app:layout_constraintTop_toBottomOf="@+id/server_port_2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

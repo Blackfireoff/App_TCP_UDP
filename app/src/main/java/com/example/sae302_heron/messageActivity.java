@@ -41,6 +41,7 @@ public class messageActivity extends AppCompatActivity {
     private Button send_message;
     private EditText write_message;
     private ClientTask CT;
+    private UDPClientTask UDPCT;
 
     String message_recu;
 
@@ -68,9 +69,8 @@ public class messageActivity extends AppCompatActivity {
         System.out.println(server);
         String username = intent.getStringExtra("Username");
         int port = intent.getIntExtra("port", 5000);
+        Boolean value_udp = intent.getBooleanExtra("value_of_udp",false);
 
-        CT = new ClientTask(server,port,username,message,sb);
-        CT.execute();
 
 
 
@@ -87,14 +87,23 @@ public class messageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String messageToSend = write_message.getText().toString();
-
-                CT.add_message(messageToSend);
+                if(value_udp==false) {
+                    CT.add_message(messageToSend);
+                }else {
+                    UDPCT.main(messageToSend);
+                }
             }
         });
 
+        if(value_udp == false) {
+            CT = new ClientTask(server, port, username, message, sb);
+            CT.execute();
+        }else{
+            UDPCT = new UDPClientTask(server,port);
+        }
 
 
-
+        /*
 
         class ReadMessage extends AsyncTask<Void, Void, Void> {
 
@@ -134,7 +143,7 @@ public class messageActivity extends AppCompatActivity {
             }
         }, 0, 5, TimeUnit.SECONDS);
 
-
+        */
 
 
         }
