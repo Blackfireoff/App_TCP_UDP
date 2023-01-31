@@ -7,60 +7,58 @@
     android:fitsSystemWindows="true"
     tools:context=".messageActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/button_quit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="270dp"
+        android:layout_marginBottom="650dp"
+        android:background="#E42E2E"
+        android:text="QUITTER"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/message_display"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:height="600dp"
+        android:gravity="bottom"
+        android:scrollbars="vertical"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_quit" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <EditText
+        android:id="@+id/WriteMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="160dp"
+        android:ems="10"
+        android:hint="@string/message"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/message_display" />
 
-            <Button
-                android:id="@+id/button_quit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:background="#E42E2E"
-                android:text="QUITTER"
-                android:textColor="#000000" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/message_display"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:height="600dp"
-            android:gravity="bottom"
-            android:scrollbars="vertical"
-            android:text="TextView" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/WriteMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:ems="10"
-                android:hint="@string/message"
-                android:inputType="textPersonName"
-                android:minHeight="48dp" />
-
-            <Button
-                android:id="@+id/send_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:text="ENVOYER" />
-        </LinearLayout>
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/send_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:text="ENVOYER"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/WriteMessage"
+        app:layout_constraintTop_toBottomOf="@+id/message_display" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.sae302_heron;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.telephony.mbms.MbmsErrors;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
     private ArrayList<Socket> Sk;
     private ServerTask ST;
 
-
+    @SuppressLint("WrongThread")
     SocketTask(Socket sk,String nameUser,StringBuilder sbe, TextView TVM,ServerTask ST) {
         socket = sk;
         username = nameUser;

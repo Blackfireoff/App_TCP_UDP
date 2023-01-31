@@ -15,10 +15,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.Switch;
 import android.widget.TextView;
 import android.view.View;
 
@@ -36,8 +38,11 @@ public class ServerActivity extends AppCompatActivity {
     private EditText serverPort;
     private TextView ipAddress;
     private EditText UsernameServer;
+    private Switch switchUDP;
+    private String ip_serv;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,7 @@ public class ServerActivity extends AppCompatActivity {
         ipAddress = findViewById(R.id.ip_address);
         clientButton = findViewById(R.id.client_server);
         UsernameServer = findViewById(R.id.Username_server);
+        switchUDP = findViewById(R.id.switch_to_udp_server);
 
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
@@ -57,6 +63,7 @@ public class ServerActivity extends AppCompatActivity {
                     if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
                         String ip = inetAddress.getHostAddress();
                         ipAddress.setText(ip);
+                        ip_serv = ip;
                     }
                 }
             }
@@ -68,17 +75,20 @@ public class ServerActivity extends AppCompatActivity {
         startServerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int port = Integer.parseInt(serverPort.getText().toString());
+                String port = serverPort.getText().toString();
+                System.out.println("Port ecrit : "+port);
                 Intent intent = new Intent(ServerActivity.this, messageActivity_server.class);
+                intent.putExtra("ip_serveur",ip_serv);
                 intent.putExtra("port_server",port);
                 intent.putExtra("Username_server",UsernameServer.getText().toString());
+                intent.putExtra("value_udp",switchUDP.isChecked());
                 startActivity(intent);
                 }
         });
         clientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ServerActivity.this, MainActivity.class);
+                Intent intent = new Intent(ServerActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
