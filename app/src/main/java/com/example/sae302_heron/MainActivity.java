@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         Username = findViewById(R.id.nom_utilisateur);
         switchUDP = findViewById(R.id.switch_to_udp_client);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override

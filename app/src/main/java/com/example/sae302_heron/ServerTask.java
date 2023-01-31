@@ -23,6 +23,7 @@ public class ServerTask extends AsyncTask<String, Void, Void> {
 
 
     //Constructeur de la classe
+    @SuppressLint("WrongThread")
     ServerTask(int port, StringBuilder sbe, String nameUser, TextView TVM){
         try {
             serverSocket = new ServerSocket(port);

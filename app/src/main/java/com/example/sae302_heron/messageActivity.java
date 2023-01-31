@@ -89,17 +89,20 @@ public class messageActivity extends AppCompatActivity {
                 String messageToSend = write_message.getText().toString();
                 if(value_udp==false) {
                     CT.add_message(messageToSend);
+                    System.out.println("message envoyé");
                 }else {
-                    UDPCT.main(messageToSend);
+                    UDPCT.add_message(messageToSend);
+                    System.out.println("message envoyé");
                 }
             }
         });
 
         if(value_udp == false) {
-            CT = new ClientTask(server, port, username, message, sb);
+            CT = new ClientTask(server, port, username,message,sb);
             CT.execute();
         }else{
             UDPCT = new UDPClientTask(server,port);
+            UDPCT.execute();
         }
 
 

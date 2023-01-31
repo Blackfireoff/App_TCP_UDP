@@ -1,12 +1,14 @@
 package com.example.sae302_heron;
 
+import android.os.AsyncTask;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-public class UDPServerTask {
+public class UDPServerTask extends AsyncTask<Void, Void, Void> {
 
     private DatagramSocket socket;
     private byte[] receiveBuffer;
@@ -26,12 +28,16 @@ public class UDPServerTask {
     }
 
 
-    public void main() {
-        try {
-            while (true) {
-                // Attente de la réception d'un paquet
-                socket.receive(receivePacket);
 
+
+    @Override
+    protected Void doInBackground(Void... Void) {
+        try {
+            while(true) {
+                // Attente de la réception d'un paquet
+                System.out.println("En attente de packet entrant");
+                socket.receive(receivePacket);
+                System.out.println("Packet recu");
                 // Récupération des données contenues dans le paquet
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 InetAddress clientAddress = receivePacket.getAddress();
@@ -39,16 +45,10 @@ public class UDPServerTask {
 
                 // Affichage du message reçu
                 System.out.println("Reçu de " + clientAddress + ":" + clientPort + " : " + message);
-
-                // Préparation d'un paquet pour envoyer une réponse
-                byte[] sendBuffer = "OK".getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, clientAddress, clientPort);
-
-                // Envoi de la réponse
-                socket.send(sendPacket);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
