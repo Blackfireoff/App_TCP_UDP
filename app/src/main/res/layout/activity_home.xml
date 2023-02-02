@@ -90,4 +90,14 @@
         app:layout_constraintTop_toTopOf="@+id/login_admin"
         app:srcCompat="@android:drawable/checkbox_on_background" />
 
+    <Button
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="30dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/fAB_valid_log"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
