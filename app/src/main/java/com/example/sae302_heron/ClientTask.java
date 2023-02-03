@@ -3,6 +3,7 @@ package com.example.sae302_heron;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -45,6 +46,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
         } catch (IOException e) {
             e.printStackTrace();
+            //Toast.makeText(messageActivity.this, "L'IP entrée n'est pas valable", Toast.LENGTH_SHORT).show();
         }
     }
 
