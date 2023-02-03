@@ -55,6 +55,7 @@ public class ServerActivity extends AppCompatActivity {
         UsernameServer = findViewById(R.id.Username_server);
         switchUDP = findViewById(R.id.switch_to_udp_server);
 
+        //Permet de récuperer l'IP local de l'appareil et de l'afficher sur l'ecran.
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
                 NetworkInterface intf = en.nextElement();
@@ -71,7 +72,7 @@ public class ServerActivity extends AppCompatActivity {
             Log.e("ServerActivity", ex.toString());
         }
 
-
+        //Bouton qui renvoie vers l'activité messageActivity_server avec l'IP, le port, username et la valeur du switch
         startServerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +86,8 @@ public class ServerActivity extends AppCompatActivity {
                 startActivity(intent);
                 }
         });
+
+        //Bouton qui renvoie vers l'activité HomeActivity
         clientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -19,6 +19,8 @@ public class read_message extends AsyncTask<Void, Void, Void> {
     private TextView message;
     private StringBuilder sb;
 
+
+    //Constructeur de la classe
     read_message(Socket ST, TextView MS, StringBuilder Sb_temp) {
         socket = ST;
         message = MS;
@@ -30,6 +32,7 @@ public class read_message extends AsyncTask<Void, Void, Void> {
         }
     }
 
+    //Thread secondaire qui permet de recevoir le JSON du serveur et de l'afficher sur l'interface du client
     @Override
     protected Void doInBackground(Void... voids) {
         while (true) {
@@ -47,6 +50,7 @@ public class read_message extends AsyncTask<Void, Void, Void> {
         }
     }
 
+    //Permet d'afficher le message sur le mainThread
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);

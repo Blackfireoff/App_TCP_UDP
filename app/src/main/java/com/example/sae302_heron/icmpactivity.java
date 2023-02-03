@@ -41,8 +41,10 @@ public class icmpactivity extends AppCompatActivity {
 
         sb = new StringBuilder();
 
+        //Permet d'activer le scroll sur un TextView
         show_ping.setMovementMethod(new ScrollingMovementMethod());
 
+        //Bouton qui lance une commande PING vers l'IP spécifié par l'utilisateur.
         ping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +68,7 @@ public class icmpactivity extends AppCompatActivity {
             }
         });
 
+        //Bouton qui renvoie vers l'activité HomeActivity
         quit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,12 +76,6 @@ public class icmpactivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
-        //ArrayAdapter<String> adapterListe = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listeReponsePing);
-
 
     }
 }

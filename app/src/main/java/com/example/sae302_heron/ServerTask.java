@@ -40,7 +40,7 @@ public class ServerTask extends AsyncTask<String, Void, Void> {
     }
 
 
-
+    //Thread secondaire qui attend qu'un client se connecte, puis les ajoutes dans une liste pour qu'il puissent communiquer
     @SuppressLint("WrongThread")
     @Override
     protected Void doInBackground(String... message) {
@@ -61,6 +61,7 @@ public class ServerTask extends AsyncTask<String, Void, Void> {
         }
     }
 
+    //Permet d'envoyer le message depuis un client présent ta la table vers tout les autres client.
     public void publishMessage(String message){
         for(SocketTask St : SkT){
             St.SendMessage(message);

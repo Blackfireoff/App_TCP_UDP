@@ -27,6 +27,8 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
     private TextView message;
     private StringBuilder sb;
 
+
+    //Constructeur de la classe
     @SuppressLint("WrongThread")
     ClientTask(String server, int port, String name, TextView MS,StringBuilder Sb_temp){
         try{
@@ -46,11 +48,12 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
         }
     }
 
+    //Ajoute un message dans une liste au format pile, ce qui permet une surchage des messages si le client en envoie plusieur en même temps
     public void add_message(String message){
         pile_message.add(message);
     }
 
-
+    //Vide la pile, mes les messages dans un fichier JSON, et envoie le JSON
     @Override
     protected Void doInBackground(Void... voids) {
         String message;

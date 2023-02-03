@@ -65,15 +65,14 @@ public class messageActivity extends AppCompatActivity {
         // Récupération du socket à partir de l'Intent
         Intent intent = getIntent();
         String server = intent.getStringExtra("server");
-        System.out.println("L'IP du server est :");
-        System.out.println(server);
+        System.out.println("L'IP du server est :"+server);
         String username = intent.getStringExtra("Username");
         int port = intent.getIntExtra("port", 5000);
         Boolean value_udp = intent.getBooleanExtra("value_of_udp",false);
 
 
 
-
+        //Bouton qui renvoie vers l'activité MainActivity
         socket_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,72 +81,32 @@ public class messageActivity extends AppCompatActivity {
             }
         });
 
-
+        //Permet d'ajouter le message dans la pile de la classe ClientTask
         send_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String messageToSend = write_message.getText().toString();
                 if(value_udp==false) {
                     CT.add_message(messageToSend);
-                    System.out.println("message envoyé");
+                    System.out.println("message envoyé depuis le client");
                 }else {
                     UDPCT.add_message(messageToSend);
-                    System.out.println("message envoyé");
+                    System.out.println("message envoyé depuis le client");
                 }
             }
         });
 
+
+        //Permet d'executer le client TCP ou UDP selon l'état du switch
         if(value_udp == false) {
+            System.out.println("Mode TCP activé");
             CT = new ClientTask(server, port, username,message,sb);
             CT.execute();
         }else{
-            UDPCT = new UDPClientTask(server,port);
+            System.out.println("Mode UDP activé");
+            UDPCT = new UDPClientTask(server,port,username,message);
             UDPCT.execute();
         }
-
-
-        /*
-
-        class ReadMessage extends AsyncTask<Void, Void, Void> {
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                        try {
-
-                            Socket socket = new Socket(server, port);
-                            DataInputStream in = new DataInputStream(socket.getInputStream());
-                            message_recu = in.readUTF();
-                            System.out.println("le message est :");
-                            System.out.println(message_recu);
-                            sb.append("Server : "+message_recu + "\n");
-                            message.setText(sb);
-                            socket.close();
-
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                    return null;
-                };
-
-
-
-
-        }
-
-        ScheduledExecutorService scheduledExecutorService =
-                Executors.newSingleThreadScheduledExecutor();
-
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                new ReadMessage().execute();
-            }
-        }, 0, 5, TimeUnit.SECONDS);
-
-        */
-
 
         }
     };

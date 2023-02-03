@@ -43,9 +43,12 @@ public class HomeActivity extends AppCompatActivity {
         login_admin = binding.loginAdmin;
         pass_admin = binding.passAdmin;
 
+        //Autorisation d'execution de service internet sur le thread principale.
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+
+        //Bouton qui renvoie vers la partie client
         ButtonClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        //Bouton qui renvoie vers la partie serveur
         ButtonServer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //Bouton qui renvoie vers la partie ICMP (j'avais prévu de faire un client FTP de base et je n'ai pas changé le nom)
         ButtonFTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +74,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        //Bouton qui rend visible la partie connexion.
         ButtonAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        //Bouton qui valide les identifiants entré et qui les compares avec ceux en mémoire
         ButtonValid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

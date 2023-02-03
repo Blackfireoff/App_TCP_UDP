@@ -69,17 +69,15 @@ public class messageActivity_server extends AppCompatActivity {
         message.setText(sb);
         message.setMovementMethod(new ScrollingMovementMethod());
 
-        // Récupération du socket à partir de l'Intent
+        // Récupération de l'ip, port, usenrame et si le client à choisie le mode UDP à partir de l'Intent
         Intent intent = getIntent();
         String ip_serv = intent.getStringExtra("ip_serveur");
         String username = intent.getStringExtra("Username_server");
-        System.out.println(username);
         String port_s = intent.getStringExtra("port_server");
         Boolean value_udp = intent.getBooleanExtra("value_udp",false);
-        System.out.println(port_s);
         int port = Integer.parseInt(port_s);
-        System.out.println(port);
 
+        //Bouton qui renvoie vers l'activité ServerActivity
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +86,7 @@ public class messageActivity_server extends AppCompatActivity {
             }
         });
 
+        //Bouton qui ajoute un message à la pile du client
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,23 +96,26 @@ public class messageActivity_server extends AppCompatActivity {
                     System.out.println("message envoyé depuis le serveur");
                 }else {
                     UDPCT.add_message(messageToSend);
-                    System.out.println("message envoyé");
+                    System.out.println("message envoyé depuis le serveur");
                 }
             }
         });
 
 
+        //Permet d'executer le serveur et le client TCP ou UDP selon l'état du switch
         if(value_udp == false) {
+            System.out.println("Mode TCP activé");
             ST = new ServerTask(port, sb, username, message);
             ST.execute();
-            CT = new ClientTask("127.0.0.1",port,username,message,sb);
-            CT.execute();
+            //CT = new ClientTask("127.0.0.1",port,username,message,sb);
+            //CT.execute();
         }
         else{
-            UDPST = new UDPServerTask(port);
+            System.out.println("Mode UDP activé");
+            UDPST = new UDPServerTask(port,message);
             UDPST.execute();
-            UDPCT = new UDPClientTask(ip_serv,port);
-            UDPCT.execute();
+            //UDPCT = new UDPClientTask(ip_serv,port,username,message);
+            //UDPCT.execute();
         }
 
 

@@ -60,11 +60,10 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
             while(socket.isConnected()) {
 
                 message_client = in.readUTF();
+                System.out.println("Client connecté au socket : "+socket);
                 json = new JSONObject(message_client);
-                System.out.println("SocketTask 1");
                 if(!message_client.isEmpty()) {
                     ST.publishMessage(message_client);
-                    System.out.println("2");
                     sb.append(json.getString("Username") + " : " + json.getString("Data") + "\n");
                     publishProgress();
                 }
@@ -83,6 +82,10 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
+        message.setText(sb);
+    }
+
+    protected void showMessage(StringBuilder sb){
         message.setText(sb);
     }
 

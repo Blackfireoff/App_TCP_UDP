@@ -47,13 +47,14 @@ public class MainActivity extends AppCompatActivity {
         switchUDP = findViewById(R.id.switch_to_udp_client);
 
 
-
+        //Bouton qui renvoie vers l'activité messageActivity, qui est la partie connexion client et interface utilisateur.
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //new ConnectTask().execute();
                 String server = serverAddress.getText().toString();
                 int port = Integer.parseInt(serverPort.getText().toString());
+
+                //J'utilise la méthode Intent pour changer d'activté et transférer des éléments entre elles.
                 Intent intent = new Intent(MainActivity.this, messageActivity.class);
                 intent.putExtra("server", server);
                 intent.putExtra("port",port);
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        //Bouton qui renvoie vers l'activité HomeActivté
         serverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
