@@ -68,31 +68,33 @@ public class UDPServerTask extends AsyncTask<Void, Void, Void> {
                 String message_recu = json.getString("Data");
                 sb.append( username + " : " +  message_recu + "\n");
                 String IP_temp = receivePacket.getAddress().toString();
-                System.out.println(IP_temp);
+                System.out.println("IP du client : "+IP_temp);
 
                 if(!IP.contains(IP_temp)){
                     IP.add(IP_temp);
                 }
 
+                json_bd = new Hashtable<>();
+                json_bd.put("Username",username);
+                json_bd.put("Data",message_recu);
+                json = new JSONObject(json_bd);
+                byte[] sendBuffer = json.toString().getBytes();
 
                 for (int i = 0; i < IP.size(); i++) {
-                    if (!IP.get(i).equals(IP_temp)) {
-                        json_bd = new Hashtable<>();
-                        json_bd.put("Username",username);
-                        json_bd.put("Data",message_recu);
-                        json = new JSONObject(json_bd);
-                        byte[] sendBuffer = json.toString().getBytes();
-                        InetAddress clientAddress = InetAddress.getByName(IP.get(i));
-                        DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, clientAddress, port);
-                        socket.send(sendPacket);
-                        System.out.println("Packet envoyé : "+json.toString()+" à l'IP : "+ clientAddress);
+                    String ip = IP.get(i);
+                    if (ip.startsWith("/")) {
+                        ip = ip.substring(1);
                     }
+                    InetAddress clientAddress = InetAddress.getByName(ip);
+                    DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, clientAddress, port+1);
+                    socket.send(sendPacket);
+                    System.out.println("Packet envoyé : "+json.toString()+" à l'IP : "+ clientAddress);
                 }
 
                 publishProgress();
 
                 // Affichage du message reçu
-                System.out.println(sb);
+                System.out.println(message_recu);
             }
         } catch (IOException e) {
             e.printStackTrace();

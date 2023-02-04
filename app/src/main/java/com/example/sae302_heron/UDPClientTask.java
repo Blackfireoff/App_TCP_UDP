@@ -45,7 +45,7 @@ public class UDPClientTask extends AsyncTask<Void, Void, Void> {
             json_bd.put("Username",username);
             message_tv = message_temp;
             rmUDP = new read_message_UDP(port,message_tv);
-            rmUDP.execute();
+            rmUDP.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);;
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (UnknownHostException e) {
@@ -56,8 +56,9 @@ public class UDPClientTask extends AsyncTask<Void, Void, Void> {
 
 
     //Ajoute un message dans une liste au format pile, ce qui permet une surchage des messages si le client en envoie plusieur en même temps
-    public void add_message(String message){
-        pile_message.add(message);
+    public void add_message(String message_received){
+        pile_message.add(message_received);
+        System.out.println("Ajout a la pile du message : " + message_received);
     }
 
 
@@ -66,6 +67,7 @@ public class UDPClientTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... Void) {
         while (true) {
             while ((message = pile_message.poll())!=null) {
+                System.out.println("Dépilage de la pile : " + message);
                 try {
                     System.out.println("Message à envoyer : "+message);
 
@@ -74,7 +76,7 @@ public class UDPClientTask extends AsyncTask<Void, Void, Void> {
 
                     // Préparation d'un paquet pour envoyer le message
                     byte[] sendBuffer = json.toString().getBytes();
-                    DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, serverAddress, port);
+                    sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, serverAddress, port);
 
                     // Envoi du paquet
                     socket.send(sendPacket);

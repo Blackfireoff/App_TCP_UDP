@@ -25,7 +25,7 @@ public class read_message_UDP extends AsyncTask {
     read_message_UDP(int port, TextView msg){
         try {
             // Création d'un socket UDP sur le port "port"
-            socket = new DatagramSocket(port);
+            socket = new DatagramSocket(port+1);
             receiveBuffer = new byte[1024];
             message = msg;
             sb = new StringBuilder();
