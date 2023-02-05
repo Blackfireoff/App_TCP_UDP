@@ -100,11 +100,11 @@ public class messageActivity extends AppCompatActivity {
         //Permet d'executer le client TCP ou UDP selon l'état du switch
         if(value_udp == false) {
             System.out.println("Mode TCP activé");
-            CT = new ClientTask(server, port, username,message,sb);
+            CT = new ClientTask(server, port, username,message,sb,this);
             CT.execute();
         }else{
             System.out.println("Mode UDP activé");
-            UDPCT = new UDPClientTask(server,port,username,message);
+            UDPCT = new UDPClientTask(server,port,username,message,this);
             UDPCT.execute();
         }
 

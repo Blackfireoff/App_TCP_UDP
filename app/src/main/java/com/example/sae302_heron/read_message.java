@@ -40,7 +40,7 @@ public class read_message extends AsyncTask<Void, Void, Void> {
                 json_receive = in.readUTF();
                 System.out.println(json_receive);
                 json = new JSONObject(json_receive);
-                sb.append(json.getString("Username") + " : " + json.getString("Data") + "\n");
+                sb.append(json.getString("Type")+" - "+json.getString("Username") + " : " + json.getString("Data") + "\n");
                 publishProgress();
             } catch (IOException e) {
                 e.printStackTrace();

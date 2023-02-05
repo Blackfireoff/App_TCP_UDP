@@ -66,7 +66,8 @@ public class UDPServerTask extends AsyncTask<Void, Void, Void> {
                 json = new JSONObject(message);
                 String username = json.getString("Username");
                 String message_recu = json.getString("Data");
-                sb.append( username + " : " +  message_recu + "\n");
+                String type = json.getString("Type");
+                sb.append( type+" - "+username + " : " +  message_recu + "\n");
                 String IP_temp = receivePacket.getAddress().toString();
                 System.out.println("IP du client : "+IP_temp);
 
@@ -77,6 +78,7 @@ public class UDPServerTask extends AsyncTask<Void, Void, Void> {
                 json_bd = new Hashtable<>();
                 json_bd.put("Username",username);
                 json_bd.put("Data",message_recu);
+                json_bd.put("Type","UDP");
                 json = new JSONObject(json_bd);
                 byte[] sendBuffer = json.toString().getBytes();
 

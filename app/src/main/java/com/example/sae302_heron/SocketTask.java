@@ -64,7 +64,7 @@ public class SocketTask extends AsyncTask<Void, Void, Void> {
                 json = new JSONObject(message_client);
                 if(!message_client.isEmpty()) {
                     ST.publishMessage(message_client);
-                    sb.append(json.getString("Username") + " : " + json.getString("Data") + "\n");
+                    sb.append( json.getString("Type")+" - "+json.getString("Username") + " : " + json.getString("Data") + "\n");
                     publishProgress();
                 }
             }

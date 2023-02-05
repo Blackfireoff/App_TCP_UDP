@@ -1,7 +1,9 @@
 package com.example.sae302_heron;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -30,8 +32,10 @@ public class UDPClientTask extends AsyncTask<Void, Void, Void> {
     private read_message_UDP rmUDP;
     private TextView message_tv;
 
+    private Context context;
+
     //Constructeur de la classe
-    UDPClientTask(String ip, int port_send, String user, TextView message_temp){
+    UDPClientTask(String ip, int port_send, String user, TextView message_temp, Context cont){
         // Création d'un socket UDP
         try {
 
@@ -44,10 +48,12 @@ public class UDPClientTask extends AsyncTask<Void, Void, Void> {
             json_bd = new Hashtable<>();
             json_bd.put("Username",username);
             message_tv = message_temp;
-            rmUDP = new read_message_UDP(port,message_tv);
+            rmUDP = new read_message_UDP(port,message_tv,context);
             rmUDP.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);;
         } catch (SocketException e) {
             e.printStackTrace();
+            CharSequence test = "test";
+            Toast.makeText(context, test, Toast.LENGTH_SHORT);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -72,6 +78,7 @@ public class UDPClientTask extends AsyncTask<Void, Void, Void> {
                     System.out.println("Message à envoyer : "+message);
 
                     json_bd.put("Data",message);
+                    json_bd.put("Type","UDP");
                     json = new JSONObject(json_bd);
 
                     // Préparation d'un paquet pour envoyer le message
@@ -85,6 +92,8 @@ public class UDPClientTask extends AsyncTask<Void, Void, Void> {
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    CharSequence test = "test";
+                    Toast.makeText(context, test, Toast.LENGTH_SHORT);
                 }
             }
         }

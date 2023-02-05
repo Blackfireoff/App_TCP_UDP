@@ -1,6 +1,8 @@
 package com.example.sae302_heron;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Hashtable;
+import java.util.PrimitiveIterator;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -28,12 +31,19 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
     private TextView message;
     private StringBuilder sb;
 
+    private Activity activity;
+
+    private boolean connected = false;
+
+    private Object lock = new Object();
+
 
     //Constructeur de la classe
     @SuppressLint("WrongThread")
-    ClientTask(String server, int port, String name, TextView MS,StringBuilder Sb_temp){
+    ClientTask(String server, int port, String name, TextView MS,StringBuilder Sb_temp, Activity act){
         try{
-            socket = new Socket(server, port);
+            activity = act;
+            socket = new Socket(server,port);
             out = new DataOutputStream(socket.getOutputStream());
             pile_message = new ArrayBlockingQueue<>(50);
             username = name;
@@ -46,9 +56,11 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
 
         } catch (IOException e) {
             e.printStackTrace();
-            //Toast.makeText(messageActivity.this, "L'IP entrée n'est pas valable", Toast.LENGTH_SHORT).show();
+
         }
     }
+
+
 
     //Ajoute un message dans une liste au format pile, ce qui permet une surchage des messages si le client en envoie plusieur en même temps
     public void add_message(String message){
@@ -63,6 +75,7 @@ public class ClientTask extends AsyncTask<Void, Void, Void> {
             while ((message = pile_message.poll())!=null) {
                 try {
                     json_bd.put("Data",message);
+                    json_bd.put("Type","TCP");
                     json = new JSONObject(json_bd);
                     out.writeUTF(json.toString());
 

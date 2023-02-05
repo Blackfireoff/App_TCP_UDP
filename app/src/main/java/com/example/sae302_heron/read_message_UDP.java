@@ -1,7 +1,9 @@
 package com.example.sae302_heron;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,13 +24,17 @@ public class read_message_UDP extends AsyncTask {
     private StringBuilder sb;
     private TextView message;
 
-    read_message_UDP(int port, TextView msg){
+    private Context context;
+
+    read_message_UDP(int port, TextView msg, Context cont){
         try {
             // Création d'un socket UDP sur le port "port"
             socket = new DatagramSocket(port+1);
             receiveBuffer = new byte[1024];
             message = msg;
             sb = new StringBuilder();
+            context = cont;
+
 
 
 
@@ -55,7 +61,7 @@ public class read_message_UDP extends AsyncTask {
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 System.out.println(message);
                 json = new JSONObject(message);
-                sb.append(json.getString("Username") + " : " + json.getString("Data") + "\n");
+                sb.append( json.getString("Type")+" - "+json.getString("Username") + " : " + json.getString("Data") + "\n");
 
 
                 publishProgress();
@@ -65,12 +71,17 @@ public class read_message_UDP extends AsyncTask {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            CharSequence test = "test";
+            Toast.makeText(context, test, Toast.LENGTH_SHORT);
         } catch (JSONException e) {
             e.printStackTrace();
+            CharSequence test = "test";
+            Toast.makeText(context, test, Toast.LENGTH_SHORT);
         }
         return null;
     }
 
+    //Affichage à l'écran du message.
     @Override
     protected void onProgressUpdate(Object[] values) {
         super.onProgressUpdate(values);
