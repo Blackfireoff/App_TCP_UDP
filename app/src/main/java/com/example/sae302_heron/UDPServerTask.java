@@ -31,6 +31,8 @@ public class UDPServerTask extends AsyncTask<Void, Void, Void> {
     private int port;
     private Hashtable<String,String> json_bd;
 
+    private boolean connect;
+
 
     UDPServerTask(int port_temp, TextView msg){
         try {
@@ -67,6 +69,7 @@ public class UDPServerTask extends AsyncTask<Void, Void, Void> {
                 String username = json.getString("Username");
                 String message_recu = json.getString("Data");
                 String type = json.getString("Type");
+                String isConnected = json.getString("isConnected");
                 sb.append( type+" - "+username + " : " +  message_recu + "\n");
                 String IP_temp = receivePacket.getAddress().toString();
                 System.out.println("IP du client : "+IP_temp);
@@ -75,10 +78,36 @@ public class UDPServerTask extends AsyncTask<Void, Void, Void> {
                     IP.add(IP_temp);
                 }
 
+                if(isConnected == "false"){
+                    for (int i = 0; i < IP.size(); i++) {
+                        if (IP.get(i).equals(IP_temp)) {
+                            String ip = IP.get(i);
+                            if (ip.startsWith("/")) {
+                                ip = ip.substring(1);
+                            }
+                            System.out.println(ip);
+                            json_bd = new Hashtable<>();
+                            json_bd.put("Username",username);
+                            json_bd.put("Data",message_recu);
+                            json_bd.put("Type","UDP");
+                            json_bd.put("isConnected",isConnected);
+                            json = new JSONObject(json_bd);
+                            byte[] sendBuffer = json.toString().getBytes();
+                            InetAddress clientAddress = InetAddress.getByName(ip);
+                            DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, clientAddress, port+1);
+                            socket.send(sendPacket);
+                            IP.remove(i);
+                            isConnected = "true";
+                            break;
+                        }
+                    }
+                }
+
                 json_bd = new Hashtable<>();
                 json_bd.put("Username",username);
                 json_bd.put("Data",message_recu);
                 json_bd.put("Type","UDP");
+                json_bd.put("isConnected",isConnected);
                 json = new JSONObject(json_bd);
                 byte[] sendBuffer = json.toString().getBytes();
 

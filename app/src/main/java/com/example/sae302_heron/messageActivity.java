@@ -76,6 +76,13 @@ public class messageActivity extends AppCompatActivity {
         socket_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(value_udp==false) {
+                    //CT.add_message(messageToSend);
+                    //System.out.println("message envoyé depuis le client");
+                }else {
+                    UDPCT.socket_close();
+                    System.out.println("Fermeture de la connexion");
+                }
                 Intent intent = new Intent(messageActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -109,4 +116,5 @@ public class messageActivity extends AppCompatActivity {
         }
 
         }
+
     };

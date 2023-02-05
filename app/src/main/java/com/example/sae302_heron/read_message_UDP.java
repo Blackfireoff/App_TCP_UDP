@@ -26,6 +26,8 @@ public class read_message_UDP extends AsyncTask {
 
     private Context context;
 
+    private boolean isConnected;
+
     read_message_UDP(int port, TextView msg, Context cont){
         try {
             // Création d'un socket UDP sur le port "port"
@@ -34,6 +36,8 @@ public class read_message_UDP extends AsyncTask {
             message = msg;
             sb = new StringBuilder();
             context = cont;
+
+            isConnected = true;
 
 
 
@@ -52,7 +56,7 @@ public class read_message_UDP extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] objects) {
         try {
-            while(true) {
+            while(isConnected) {
                 // Attente de la réception d'un paquet
                 System.out.println("En attente de packet entrant");
                 socket.receive(receivePacket);
@@ -61,8 +65,15 @@ public class read_message_UDP extends AsyncTask {
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 System.out.println(message);
                 json = new JSONObject(message);
-                sb.append( json.getString("Type")+" - "+json.getString("Username") + " : " + json.getString("Data") + "\n");
+                String connected = json.getString("isConnected");
+                if(connected.equals("false")){
+                    isConnected = false;
+                    sb.append(json.getString("Username") + " - " + json.getString("Data")+ "\n");
+                    socket.close();
 
+                }else {
+                    sb.append(json.getString("Type") + " - " + json.getString("Username") + " : " + json.getString("Data") + "\n");
+                }
 
                 publishProgress();
 
@@ -71,13 +82,10 @@ public class read_message_UDP extends AsyncTask {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            CharSequence test = "test";
-            Toast.makeText(context, test, Toast.LENGTH_SHORT);
         } catch (JSONException e) {
             e.printStackTrace();
-            CharSequence test = "test";
-            Toast.makeText(context, test, Toast.LENGTH_SHORT);
         }
+        System.out.println("Fin de la com");
         return null;
     }
 
