@@ -71,12 +71,8 @@ public class read_message_UDP extends AsyncTask {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            CharSequence test = "test";
-            Toast.makeText(context, test, Toast.LENGTH_SHORT);
         } catch (JSONException e) {
             e.printStackTrace();
-            CharSequence test = "test";
-            Toast.makeText(context, test, Toast.LENGTH_SHORT);
         }
         return null;
     }

@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 String server = serverAddress.getText().toString();
                 int port = Integer.parseInt(serverPort.getText().toString());
 
+                //Vérifie que l'adresse IP est correcte
                 String[] parts = server.split("\\.");
                 if (parts.length != 4) {
                     showToast("Entrée non valide: ce n'est pas une adresse IP");
@@ -85,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
                         showToast("Entrée non valide: ce n'est pas une adresse IP");
                         return;
                     }
+                }
+
+                //Vérifie que le port est dans la range [0-65535]
+                if (port <= 0 || port>65535){
+                    showToast("Entrée non valide: ce n'est pas un port valide");
+                    return;
                 }
 
 
@@ -117,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Permet d'afficher sue l'écran de l'utilisateur un message
     private void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }

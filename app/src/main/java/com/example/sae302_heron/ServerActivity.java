@@ -77,7 +77,6 @@ public class ServerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String port = serverPort.getText().toString();
-                System.out.println("Port ecrit : "+port);
                 Intent intent = new Intent(ServerActivity.this, messageActivity_server.class);
                 intent.putExtra("ip_serveur",ip_serv);
                 intent.putExtra("port_server",port);
