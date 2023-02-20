@@ -10,3 +10,5 @@ In this project, I developed an android application under Java that contains sev
 - Multi-client
 
 My application uses version 7 of the Android SDK in minimal version.
+
+![Untitled](pictures/'Untilted 1.jpeg')
